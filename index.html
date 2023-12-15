@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumulus</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="confetti.js"></script>
+
+</head>
+
+
+<body>
+    
+    <button id="dark-mode-toggle">
+        <img id="mode-icon" src="sun.svg" alt="Change Mode">
+        <span id="mode-text">Change Mode</span>
+    </button>
+    
+    <div class="arrow">
+        <img src="arrow.svg" alt="Arrow">
+
+    </div>
+    
+    <div class="Cumulus">
+        <h1>Cumulus.</h1>
+    </div>
+
+    <div class="todo-container">
+
+        <h2>Tasks</h2>
+        
+        <p><span id="animated-text"></span></p>
+        <div class="input-container"> <!-- New container for input and button -->
+            <div class="input-wrapper">
+                <input type="text" id="todo-input" placeholder="Add a new task">
+                <button onclick="addTodo()">Add</button>
+            </div>
+        </div>
+
+        <ul id="todo-list"></ul>
+    </div>
+
+
+    <div class="timer-container">
+        <div class="timer-flex-container">
+            <img src="timer.svg" alt="Timer Icon" class="timer-icon">
+            <p id="countdown-display" style="display:none;">
+                Time Left: <span id='duration'></span>
+            </p>
+            
+            <input type="number" id="hours" placeholder="Hrs" min="0">
+            <input type="number" id="minutes" placeholder="Mins" min="0" max="59">
+            <button onclick="startTimer()" id="start-button">Start Timer</button>
+            <button onclick="pauseTimer()" id="pause-button" style="display:none;">Pause</button>
+            <button onclick="stopTimer()" id="stop-button" style="display:none;">Stop</button>
+        </div>
+    </div>
+    
+    
+    
+    <audio id="ringtone" src="little_bell_chimes.mp3" type="audio/mp3"></audio>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+    <script src="script.js"></script>
+
+
+    
+</body>
+</html>
+
+
+
+
+

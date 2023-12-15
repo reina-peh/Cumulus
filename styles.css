@@ -1,0 +1,440 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #517a92;
+    font-size: 34px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-family: 'Nunito', sans-serif; /* Updated font */
+    font-weight: 700;
+}
+
+h2 {
+    color: #517a92;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: 'Nunito', sans-serif; /* Updated font */
+    font-weight: 700;
+}
+
+
+p {
+    color: #5c5c5c;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Nunito', sans-serif; /* Updated font */
+    font-weight: 600;
+}
+
+.Cumulus {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    padding: 10px;
+    color: #517a92;
+    font-size: 150px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+}
+
+.task-image {
+    width: 20px; /* Set an appropriate size for the image */
+    height: auto;
+    margin-left: 10px; /* Add some space between the text and the image */
+}
+
+body {
+    min-height: 100vh; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: flex-start; /* Align content to the top */
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    background-image: url("light_bkg.svg");
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center bottom; /* Center the image */
+    position: relative; /* added for clouds */
+}
+
+.todo-container {
+    position: absolute; /* added for clouds */
+    width: 450px;
+    padding: 20px 30px;
+    border-radius: 30px;
+    background-color: #ffffffcc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20vh; /* Adjust as needed */
+    max-height: 65vh; /* Set a maximum height */
+    overflow-y: auto; /* Make it scrollable */
+}
+
+#todo-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    /* No need for max-height here */
+}
+
+input[type="text"] {
+    width: calc(90% - 80px);
+    flex-grow: 1; /* Allow input to take up the available space */
+    padding: 8px 8px 8px 20px;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: #517a92;
+    border-radius: 50px;
+    margin-right: 10px; /* Add some space between the input and button */
+    margin-bottom: 30px; /* Add bottom margin */
+}
+
+.input-container input[type="text"] {
+    background-color: #ffffffb6;
+    border-color: #517a92
+
+}
+
+input[type="text"]::placeholder {
+    color: #d0d0d0; /* Lighter placeholder text color */
+    font-weight: 600;
+    font-size: 16px
+}
+
+
+button {
+    width: 70px;
+    padding: 10px;
+    border: none;
+    background-color: #517a92;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center; 
+    line-height: 16px; 
+    display: inline-block; 
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px; /* Increased font size */ 
+    font-weight: 700;
+}
+
+#todo-list li {
+    padding: 10px 20px; /* Adjust padding */
+    background-color: #ffffff95;
+    color: #517a92;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: grab;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex; /* Flex layout for list items */
+    align-items: center; /* Vertically center content */
+    justify-content: space-between; /* Space out content */
+    margin-bottom: 10px; /* Add space between list items */
+}
+
+#todo-list li::after {
+    content: '';
+    display: block;
+    width: 20px; /* Width of the lines */
+    height: 2px; /* Height of the lines */
+    border-radius: 30px;
+    background: #517a92a5; /* Color of the lines */
+    position: absolute; /* Positioning relative to the list item */
+    right: 20px; /* Distance from the right side of the list item */
+    top: 40%; /* Center vertically in the list item */
+    transform: translateY(-50%);
+}
+
+#todo-list li::before {
+    content: '';
+    display: block;
+    width: 20px; /* Width of the lines */
+    height: 2px; /* Height of the lines */
+    border-radius: 30px;
+    background: #517a92a5; /* Color of the lines */
+    position: absolute; /* Positioning relative to the list item */
+    right: 20px; /* Distance from the right side of the list item */
+    top: 55%; /* Center vertically in the list item */
+    transform: translateY(-50%); /* Rotate the line to horizontal */
+}
+
+
+
+#todo-list li:hover {
+    background-color: #517a9229;
+    transform: scale(1.02); /* Slight scale on hover for interaction feedback */
+}
+
+#todo-list li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+}
+
+#todo-list li.completed {
+    color: #821b1b;
+    text-decoration: line-through;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #821b1b;
+}
+
+.timer-container {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    padding: 6px;
+    border-radius: 50px;
+    text-align: right;
+    z-index: 1000;
+    color: #517a92; /* White text for contrast */
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+}
+
+.timer-flex-container {
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    gap: 5px; /* Space between items */
+}
+
+.timer-container input[type="number"] {
+    padding: 6px;
+    border: 2px solid #517a92; /* Lighter shade of pastel blue */
+    background-color: #ffffffeb; /* Very light pastel blue */
+    border-radius: 50px;
+    margin: 0 5px;
+    text-align: center; 
+    color: #517a92; /* Dark color for the text */
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    width: 60px; /* Wider input fields */
+}
+
+.timer-container input[type="number"]::placeholder {
+    color: #a0b1c5; /* Lighter color for the placeholder text */
+    text-align: right; /* Shift placeholder text rightwards */
+}
+
+.timer-container button {
+    padding: 10px 14px;
+    background-color: #517a92; /* Darker shade of pastel blue */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-left: 10px;
+    width: 120px
+}
+
+.timer-container button:hover {
+    background-color: #426680;
+    border-color: #ffffff
+}
+
+#countdown-display {
+    font-size: 18px;
+    color: #426680;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: flex; /* Enable flex display */
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align items to the start of the container */
+    width: 100px;
+}
+
+#duration {
+    font-size: 18px; /* Adjust font size as needed */
+    color: #426680; /* Adjust color as needed */
+    margin-top: 5px; /* Space between "Time Left" and duration */
+}
+
+
+.timer-icon {
+    width: 70px; /* Adjust as needed */
+    height: auto;
+    vertical-align: middle; /* Aligns image with the input field */
+    margin-right: 5px;
+}
+
+/* Styles for the scrollbar track (the part the thumb slides along) */
+::-webkit-scrollbar-track {
+    background-color: #a4bbc9; /* Light grey track */
+    border-radius: 50px; /* Rounded corners */
+}
+
+/* Styles for the scrollbar thumb (the draggable element) */
+::-webkit-scrollbar-thumb {
+    background-color: #517a92; /* Darker grey thumb */
+    border-radius: 50px; /* Rounded corners */
+    border: 50px solid #517a92; /* Light grey border to match the track */
+}
+
+/* Styles for the scrollbar thumb when hovered or clicked */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Even darker grey on hover */
+}
+
+/* Styles for the scrollbar itself (including width and height) */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the vertical scrollbar */
+    height: 10px; /* Height of the horizontal scrollbar */
+}
+
+#dark-mode-toggle {
+    /* Remove circular styling */
+    position: absolute;
+    left: 50px;
+    top: 150px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: left;
+    width: 100px
+    
+}
+
+#mode-icon {
+    width: 130px; /* Adjust as needed */
+    height: 130px; /* Adjust as needed */
+    margin-right: 40px;
+    margin-top: -30px;
+}
+
+#mode-text {
+    color: #517a9288; /* Adjust text color as needed */
+    font-size: 12px; /* Adjust font size as needed */
+    width: 200px;
+    text-align: left;
+}
+
+
+.arrow img {
+    width: 50px;  /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    position: absolute;
+    top: 120px;
+    left: 180px;
+    opacity: 0.5;
+}
+
+.dark-mode .arrow img {
+    filter: brightness(0) invert(1); /* brightness(0): This function reduces the brightness of the image to zero, essentially making the image completely black.
+    invert(1): This function inverts all the colors of the image. After the image is turned black by brightness(0), inverting it turns it completely white. */
+}
+
+.dark-mode #mode-text {
+    color: #ffffff88; /* Adjust text color as needed */
+    font-size: 12px; /* Adjust font size as needed */
+    width: 200px;
+    text-align: left;
+}
+
+.dark-mode .Cumulus h1 {
+    color: white; /* Change color to white in dark mode */
+}
+
+
+/* Style for the Pause/Resume button */
+#pause-button {
+    background-color: #f0ad4e; /* Orange color */
+    color: white; /* White text */
+    width: 80px; /* Set the width */
+    border: none; /* Remove default border */
+    padding: 10px; /* Padding for better appearance */
+    border-radius: 50px; /* Slightly rounded corners */
+    margin: 5px; /* Margin around the button */
+    margin-left: 15px;
+    cursor: pointer; /* Cursor to pointer on hover */
+}
+
+
+/* Style for the Stop button */
+#stop-button {
+    background-color: #d9534f; /* Red color */
+    color: white; /* White text */
+    width: 70px; /* Set the width */
+    border: none; /* Remove default border */
+    padding: 10px; /* Padding for better appearance */
+    border-radius: 50px; /* Slightly rounded corners */
+    margin: 5px; /* Margin around the button */
+    cursor: pointer; /* Cursor to pointer on hover */
+}
+
+.dark-mode #countdown-display, 
+.dark-mode #duration {
+    color: white; /* Change color to white in dark mode */
+}
+
+
+#animated-text {
+    border-right: 0.1em solid #517a92; /* Adjust the width here */
+    white-space: nowrap;
+    overflow: hidden;
+    animation: blinkCursor 2s steps(50) infinite normal;
+  }
+  
+  @keyframes blinkCursor {
+    from { border-right-color: #517a92; }
+    to { border-right-color: transparent; }
+  }
+  
+
+
+  .confetti {
+    position: fixed;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    z-index: 9999;
+    animation: fall linear forwards;
+    background-color: currentColor; /* Ensures the color is inherited */
+  }
+
+  
+/* Triangle shape */
+.confetti.triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* Circle shape */
+.confetti.circle {
+    border-radius: 50%;
+}
+
+  
+@keyframes fall {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(500px * (0.5 - var(--random))), calc(-100vh - 10px)) rotate(360deg);
+        opacity: 0;
+    }
+}
+  
+
+  
