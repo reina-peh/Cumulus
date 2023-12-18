@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cumulus</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="confetti.js"></script>
+    <link rel="stylesheet" href="dragula.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    
+    <script src="confetti.js"></script>
 </head>
 
-
 <body>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+    <div class="chart-container">
+        <div id="chartContainer">
+            <div id="circleBehind"></div>
+            <canvas id="myChart"></canvas>
+            <div id="percentageText"></div>
+            <span id="chart-text">Progress</span>
+          </div>
+          
+    </div>
     
     <button id="dark-mode-toggle">
         <img id="mode-icon" src="sun.svg" alt="Change Mode">
@@ -22,7 +32,6 @@
     
     <div class="arrow">
         <img src="arrow.svg" alt="Arrow">
-
     </div>
     
     <div class="Cumulus">
@@ -58,17 +67,16 @@
             <button onclick="pauseTimer()" id="pause-button" style="display:none;">Pause</button>
             <button onclick="stopTimer()" id="stop-button" style="display:none;">Stop</button>
         </div>
+    
+    <script src="script.js"></script>
     </div>
     
-    
-    
     <audio id="ringtone" src="little_bell_chimes.mp3" type="audio/mp3"></audio>
-    
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
-    <script src="script.js"></script>
+
+    <img src="dustbin.svg" id="clear-tasks" alt="Clear Tasks" class="dustbin-icon">
+    <span id="bin-text">Clear All</span>
 
 
-    
 </body>
 </html>
 

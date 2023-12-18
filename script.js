@@ -48,10 +48,6 @@ function triggerConfettiEffect() {
   }
 }
 
-
-// Call createConfettiPiece in a loop or a function to generate confetti
-
-
 function updateBackground() {
     const cloudContainer = document.body;
     const cloudImage = `url("cloud.svg")`; // Ensure this path is correct
@@ -101,6 +97,7 @@ function renderTask(taskTitle, isCompleted) {
         cloudCount--;
     }
     updateBackground();
+    calculateAndUpdateChart(); 
 
     // Update task completion status in the database
     fetch(`/api/tasks/${encodeURIComponent(taskTitle)}`, {
@@ -131,10 +128,12 @@ function renderTask(taskTitle, isCompleted) {
     if (cloudCount > 0) cloudCount--;
     updateBackground();
     renumberTasks();
+    calculateAndUpdateChart(); 
   });
 
   todoList.appendChild(li);
   updateBackground(); // Update background each time a task is rendered
+  calculateAndUpdateChart(); //update chart each time a task is rendered
 }
 
 function renumberTasks() {
@@ -172,9 +171,12 @@ function loadTasks() {
   fetch("/api/tasks")
     .then((response) => response.json())
     .then((tasks) => {
+      const completedTasks = tasks.filter(task => task.completed).length;
+      const completionPercentage = (completedTasks / tasks.length) * 100;
       tasks.forEach((task) => {
         renderTask(task.title, task.completed);
       });
+      calculateAndUpdateChart();
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -292,7 +294,6 @@ function stopTimer() {
   document.getElementById("minutes").value = "";
   document.getElementById("start-button").style.display = "inline";
   remainingTime = 0; // Reset the remaining time
-
 }
 
 function playRingtone() {
@@ -390,38 +391,76 @@ dragula([document.getElementById("todo-list")], { removeOnSpill: false })
         while (todoList.firstChild) {
             todoList.removeChild(todoList.firstChild);
           }
-        // Reset cloud count and update the background
-        cloudCount = 0;
-        updateBackground();
 
-        // Update the ring chart to show 0% completion
-        updateRingChart();
-        
+        fetch(`/api/tasks/deleteAll`, { method: "DELETE" })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(() => {
+            // Clear the tasks from the front end
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = '';
+            cloudCount = 0;
+            updateBackground();
+            calculateAndUpdateChart(); // Update the chart
+        })
+        .catch(error => console.error("Error:", error));
     });
 });
 
-function updateRingChart() {
-  const tasks = document.querySelectorAll('#todo-list li');
-  const completedTasks = document.querySelectorAll('#todo-list li.completed').length;
-  const totalTasks = tasks.length;
-  const percentage = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-  const ringChart = document.querySelector('.ring-chart');
-  const percentageDisplay = document.getElementById('tasks-completed-percentage');
 
-  ringChart.style.setProperty('--percentage', `${percentage}%`);
-  percentageDisplay.textContent = `${percentage}%`;
+// Define window.myChart globally so it can be accessed by other functions to update the chart
+window.myChart = null;
+
+// This function initializes or updates the donut chart with the provided percentage
+function updateDonutChart(percentage) {
+  var ctx = document.getElementById('myChart').getContext('2d');
+  
+  // Update the percentage text
+  document.getElementById('percentageText').innerText = percentage.toFixed(1) + '%';
+
+  // Check if the chart instance already exists
+  if (window.myChart) {
+    // If the chart instance exists, update the data
+    window.myChart.data.datasets[0].data = [percentage, 100 - percentage];
+    window.myChart.update();
+  } else {
+    // If the chart instance does not exist, create it
+    window.myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [percentage, 100 - percentage],
+          backgroundColor: [
+            'rgba(0, 255, 0, 0.2)',
+            'rgba(255, 99, 132, 0.2)'
+          ],
+          borderColor: [
+            'rgba(51, 204, 51, 1)',
+            'rgba(255, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        cutout: 40 // Set the cutout percentage here
+      }
+    });
+  }
 }
 
-// Update the ring chart when a task is toggled or removed
-document.getElementById('todo-list').addEventListener('click', function(event) {
-  if (event.target.tagName === 'LI') {
-      setTimeout(updateRingChart, 0); // Update after the DOM changes
-  }
-});
 
-// Initialize ring chart on page load
-document.addEventListener("DOMContentLoaded", function() {
-  loadTasks();
-  updateRingChart();
-});
+
+function calculateAndUpdateChart() {
+  // Grab all list items
+  const todoListItems = document.querySelectorAll("#todo-list li");
+  // Calculate completed tasks based on the 'completed' class
+  const completedTasksCount = Array.from(todoListItems).filter(item => item.classList.contains('completed')).length;
+  const totalTasksCount = todoListItems.length;
+  const completionPercentage = totalTasksCount > 0 ? (completedTasksCount / totalTasksCount) * 100 : 0;
+  updateDonutChart(completionPercentage); // Update the chart with the new percentage
+}

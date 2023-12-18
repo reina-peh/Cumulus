@@ -74,6 +74,20 @@ app.post("/api/tasks", async (req, res) => {
   }
 });
 
+//deleteAll from database
+app.delete("/api/tasks/deleteAll", async (req, res) => {
+  try {
+    // Assuming 'Task' is your MongoDB model
+    const result = await Task.deleteMany({}); // Deletes all documents in the collection
+    if (result.deletedCount === 0) {
+      return res.status(404).send("No tasks found to delete.");
+    }
+    res.status(200).json({ message: "All tasks deleted" });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 // Endpoint to delete a task
 app.delete("/api/tasks/:title", async (req, res) => {
   try {
