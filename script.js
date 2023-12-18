@@ -2,40 +2,31 @@ let cloudCount = 0;
 let input = document.getElementById("todo-input");
 let taskTitle = input.value.trim();
 
-function createConfettiParticle() {
-  
-
+function createConfettiParticle(position) {
   const confetti = document.createElement('div');
   confetti.className = 'confetti';
-  confetti.style.left = '80%'; // Center at the bottom
+
+  // Set horizontal position based on the position argument
+  switch (position) {
+      case 'left':
+          confetti.style.left = '20%'; // Left side
+          break;
+      case 'center':
+          confetti.style.left = '50%'; // Center
+          break;
+      case 'right':
+          confetti.style.left = '80%'; // Right side
+          break;
+      default:
+          confetti.style.left = '50%'; // Default to center if no position is specified
+  }
+
   confetti.style.bottom = '0px'; // Start from the bottom
   confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
   confetti.style.setProperty('--random', Math.random());
 
   // Randomize animation properties
   confetti.style.animationDuration = (Math.random() * 1 + 0.2) + 's'; // Duration between 2 to 5 seconds
-  confetti.style.animationDelay = -(Math.random() * 2) + 's'; // Start at different times
-
-  document.body.appendChild(confetti);
-  setTimeout(() => confetti.remove(), 2000); // Remove after animation
-}
-
-function triggerConfettiEffect() {
-  for (let i = 0; i < 200; i++) { // Increase for more particles
-    createConfettiParticle();
-  }
-}
-
-function createConfettiParticle() {
-  const confetti = document.createElement('div');
-  confetti.className = 'confetti';
-  confetti.style.left = '80%'; // Center at the bottom
-  confetti.style.bottom = '0px'; // Start from the bottom
-  confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-  confetti.style.setProperty('--random', Math.random());
-
-  // Randomize animation properties
-  confetti.style.animationDuration = (Math.random() * 1 + 0.2) + 's'; // Duration between 0.2 to 1.2 seconds
   confetti.style.animationDelay = -(Math.random() * 2) + 's'; // Start at different times
 
   // Assign a random shape to each confetti piece
@@ -49,10 +40,16 @@ function createConfettiParticle() {
   setTimeout(() => confetti.remove(), 2000); // Remove after animation
 }
 
+function triggerConfettiEffect() {
+  for (let i = 0; i < 200; i++) {
+      createConfettiParticle('left'); // Left side explosion
+      createConfettiParticle('center'); // Center explosion
+      createConfettiParticle('right'); // Right side explosion
+  }
+}
+
 
 // Call createConfettiPiece in a loop or a function to generate confetti
-
-
 
 
 function updateBackground() {
@@ -340,7 +337,6 @@ function toggleDarkMode() {
 
 
 
-
 document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
 
 function typeWriter(text, i, fnCallback) {
@@ -360,6 +356,7 @@ function typeWriter(text, i, fnCallback) {
   }
 }
 
+
 // Trigger the typing effect
 document.addEventListener("DOMContentLoaded", function(event) {
   typeWriter("A cloud is added with every completed task!", 0);
@@ -370,13 +367,61 @@ document.addEventListener("DOMContentLoaded", function(event) {
 dragula([document.getElementById("todo-list")], { removeOnSpill: false })
   .on("drag", function(el) {
     el.className = el.className.replace("ex-moved", "");
+    
   })
   .on("drop", function(el) {
     el.className += " ex-moved";
+    renumberTasks();
+
   })
   .on("over", function(el, container) {
     container.className += " ex-over";
   })
   .on("out", function(el, container) {
     container.className = container.className.replace("ex-over", "");
+    renumberTasks();
+
   });
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('clear-tasks').addEventListener('click', function() {
+        const todoList = document.getElementById('todo-list');
+        while (todoList.firstChild) {
+            todoList.removeChild(todoList.firstChild);
+          }
+        // Reset cloud count and update the background
+        cloudCount = 0;
+        updateBackground();
+
+        // Update the ring chart to show 0% completion
+        updateRingChart();
+        
+    });
+});
+
+function updateRingChart() {
+  const tasks = document.querySelectorAll('#todo-list li');
+  const completedTasks = document.querySelectorAll('#todo-list li.completed').length;
+  const totalTasks = tasks.length;
+  const percentage = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+  const ringChart = document.querySelector('.ring-chart');
+  const percentageDisplay = document.getElementById('tasks-completed-percentage');
+
+  ringChart.style.setProperty('--percentage', `${percentage}%`);
+  percentageDisplay.textContent = `${percentage}%`;
+}
+
+// Update the ring chart when a task is toggled or removed
+document.getElementById('todo-list').addEventListener('click', function(event) {
+  if (event.target.tagName === 'LI') {
+      setTimeout(updateRingChart, 0); // Update after the DOM changes
+  }
+});
+
+// Initialize ring chart on page load
+document.addEventListener("DOMContentLoaded", function() {
+  loadTasks();
+  updateRingChart();
+});
