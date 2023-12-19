@@ -1,7 +1,8 @@
 # Cumulus
 
-Cumulus is a web-based productivity tool developed to make task management more enjoyable. Each time a task is completed, a cloud addition and bursts of confetti animation are triggered. (Built from scratch using HTML, CSS, and JavaScript)
+Cumulus is a web-based productivity tool developed to make task management more enjoyable. Each time a task is completed, a cloud addition and bursts of confetti animation are triggered.
 <img width="958" alt="image" src="https://github.com/risingcupcakes/Cumulus/assets/75836749/72b13396-d5c3-4c3d-9267-1f0eb76d6cc2">
+(built from scratch using HTML, CSS & Javascript)
 
 # Demo
 https://github.com/risingcupcakes/Cumulus/assets/75836749/5d7e4196-5005-4e1a-88d1-13d518614687
