@@ -423,16 +423,31 @@ button {
     width: 80px; /* Adjust size as needed */
     height: auto;
     cursor: pointer; /* Change cursor on hover */
+    fill: red;
 }
 
 #bin-text {
-    color: #08b422; /* Adjust text color as needed */
+    color: #5a5a5a; /* Adjust text color as needed */
     font-size: 16px; /* Adjust font size as needed */
-    width: 200px;
+    width: 50px;
+    font-weight: 700;
+    text-align: center;
     position: absolute; 
-    bottom: 40px;
-    right: 10px
+    bottom: 50px;
+    right: 110px
 }
+
+.dark-mode #bin-text {
+    color: #ffffff; /* Adjust text color as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    width: 50px;
+    font-weight: 700;
+    text-align: center;
+    position: absolute; 
+    bottom: 50px;
+    right: 110px
+}
+
 
 #chartContainer {
     width: 140px;
@@ -458,33 +473,49 @@ button {
     z-index: 3; /* Above the white circle and the chart */
   }
   
-  #chart-text {
-    color: #517a92; /* Adjust text color as needed */
-    font-size: 20px; /* Adjust font size as needed */
-    width: 200px;
-    position: absolute;
-    top: 140px;
-    right: 30px;
-    font-weight: 700;
-}
+ 
 
 #circleBehind {
     position: absolute;
-    width: 150px; /* Match the size of the chart container */
-    height: 150px; /* Match the size of the chart container */
-    top: 180px;
-    right: 115px;
+    width: 130px; /* Match the size of the chart container */
+    height: 130px; /* Match the size of the chart container */
+    top: 190px;
+    right: 125px;
     background-color: white;
     border-radius: 100%; /* This makes it a circle */
     z-index: 1; /* Behind the chart and text */
 }
 
-.dark-mode #chart-text {
-    color: #ffffff; /* Adjust text color as needed */
-    font-size: 20px; /* Adjust font size as needed */
-    width: 200px;
+#circleBehindBehind {
     position: absolute;
-    top: 140px;
-    right: 30px;
-    font-weight: 700;
+    width: 160px; /* Match the size of the chart container */
+    height: 160px; /* Match the size of the chart container */
+    top: 175px;
+    right: 110px;
+    background-color: rgba(255, 255, 255, 0.324);
+    border-radius: 100%; /* This makes it a circle */
+    z-index: 1; /* Behind the chart and text */
+}
+
+#circleBehindBehindBehind {
+    position: absolute;
+    width: 190px; /* Match the size of the chart container */
+    height: 190px; /* Match the size of the chart container */
+    top: 160px;
+    right: 95px;
+    background-color: rgba(255, 255, 255, 0.164);
+    border-radius: 100%; /* This makes it a circle */
+    z-index: 1; /* Behind the chart and text */
+}
+
+
+#progress-text {
+    position: absolute;
+    width: 125px; 
+    height: 125px; 
+    top: 110px;
+    right: 165px;
+    color: #517a92;
+    opacity: 1;
+    z-index: 4; 
 }

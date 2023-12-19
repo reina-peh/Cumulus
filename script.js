@@ -453,8 +453,6 @@ function updateDonutChart(percentage) {
   }
 }
 
-
-
 function calculateAndUpdateChart() {
   // Grab all list items
   const todoListItems = document.querySelectorAll("#todo-list li");
@@ -464,3 +462,6 @@ function calculateAndUpdateChart() {
   const completionPercentage = totalTasksCount > 0 ? (completedTasksCount / totalTasksCount) * 100 : 0;
   updateDonutChart(completionPercentage); // Update the chart with the new percentage
 }
+
+
+
