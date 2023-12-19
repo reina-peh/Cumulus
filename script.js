@@ -201,64 +201,50 @@ let remainingTime = 0;
 let endTime = 0;
 
 function startTimer() {
+  // Parse hours and minutes only once
+  const hours = parseInt(document.getElementById("hours").value) || 0;
+  const minutes = parseInt(document.getElementById("minutes").value) || 0;
 
-   // Hide the start button
-   document.getElementById("minutes").style.display = "none";
-   document.getElementById("hours").style.display = "none";
+  // Convert hours and minutes to milliseconds
+  let totalTime = (hours * 3600 + minutes * 60) * 1000;
 
-   document.getElementById("start-button").style.display = "none";
-
-
-   // Show countdown, pause, and stop buttons
-   document.getElementById("countdown-display").style.display = "block";
-   document.getElementById("pause-button").style.display = "inline";
-   document.getElementById("stop-button").style.display = "inline";
-
-  let hours = parseInt(document.getElementById("hours").value);
-  let minutes = parseInt(document.getElementById("minutes").value);
-  let totalTime = 
-    (isNaN(hours) ? 0 : hours * 3600) + // Convert hours to seconds
-    (isNaN(minutes) ? 0 : minutes * 60); // Convert minutes to seconds
-
-  totalTime *= 1000; // Convert total time to milliseconds
-
+  // Early exit if no valid time is entered
   if (totalTime <= 0) {
-    alert("Please enter a valid time.");
-    return;
+      alert("Please enter a valid time.");
+      return;
   }
-  
-  endTime = Date.now() + totalTime;
 
+  // Use remaining time if paused, otherwise use the calculated total time
+  totalTime = remainingTime || totalTime;
 
-   // Calculate total time only if remainingTime is 0 (not paused)
-   if (remainingTime === 0) {
-    let hours = parseInt(document.getElementById("hours").value);
-    let minutes = parseInt(document.getElementById("minutes").value);
-    totalTime = 
-        (isNaN(hours) ? 0 : hours * 3600) + // Convert hours to seconds
-        (isNaN(minutes) ? 0 : minutes * 60); // Convert minutes to seconds
-    totalTime *= 1000; // Convert total time to milliseconds
-} else {
-    totalTime = remainingTime; // Use the remaining time if paused
+   // Set the end time for the countdown
+   endTime = Date.now() + totalTime;
+
+   // Clear any existing countdown interval and start a new one
+   clearInterval(countdown);
+   countdown = setInterval(() => {
+       if (isPaused) return;
+ 
+       const secondsLeft = Math.round((endTime - Date.now()) / 1000);
+       if (secondsLeft < 0) {
+           clearInterval(countdown);
+           playRingtone();
+           return;
+       }
+       displayTimeLeft(secondsLeft * 1000);
+   }, 1000);
+  // Prepare UI for countdown
+  document.getElementById("minutes").style.display = "none";
+  document.getElementById("hours").style.display = "none";
+  document.getElementById("start-button").style.display = "none";
+  document.getElementById("countdown-display").style.display = "block";
+  document.getElementById("pause-button").style.display = "inline";
+  document.getElementById("stop-button").style.display = "inline";
+
+ 
 }
 
-  clearInterval(countdown);
-  endTime = Date.now() + totalTime;
-  displayTimeLeft(totalTime);
 
-  countdown = setInterval(() => {
-    if (isPaused) return;
-
-    const secondsLeft = Math.round((endTime - Date.now()) / 1000);
-    if (secondsLeft < 0) {
-        clearInterval(countdown);
-        playRingtone();
-        return;
-    }
-    displayTimeLeft(secondsLeft * 1000);
-}, 1000);
-
-}
 
 let isPaused = false;
 
@@ -315,7 +301,7 @@ function displayTimeLeft(millisecondsLeft) {
   const durationElement = document.getElementById("duration");
   //if millisecondsLeft is 0 --> duration turns red, else, if body is in dark mode --> duration turns white, else duration remains in initial color
   durationElement.style.color = millisecondsLeft === 0 ?
-  "red" : (document.body.classList.contains('dark-mode') ? "white" : initial);
+  "red" : (document.body.classList.contains('dark-mode') ? "white" : 'initial');
 }
 
 
