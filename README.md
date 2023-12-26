@@ -2,7 +2,7 @@
 
 Cumulus is a web-based productivity tool developed to make task management more enjoyable.
 <img width="958" alt="image" src="https://github.com/risingcupcakes/Cumulus/assets/75836749/72b13396-d5c3-4c3d-9267-1f0eb76d6cc2">
-(built from scratch using HTML, CSS & Javascript)
+(built from scratch using HTML, CSS, Javascript & MongoDB)
 
 # Demo
 https://github.com/risingcupcakes/Cumulus/assets/75836749/5d7e4196-5005-4e1a-88d1-13d518614687
@@ -14,4 +14,3 @@ https://github.com/risingcupcakes/Cumulus/assets/75836749/5d7e4196-5005-4e1a-88d
 4. Donut chart (Chart.js)
 5. Countdown timer and alarm trigger
 6. Dark and light mode toggle
-7. Database: MongoDB
